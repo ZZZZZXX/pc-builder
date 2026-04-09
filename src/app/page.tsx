@@ -1264,6 +1264,47 @@ const offerMapFrom = (selected: Record<CategoryId, string>) =>
     Object.entries(selected).map(([categoryId, partId]) => [categoryId, cheapest(partsById.get(partId)!).id])
   ) as Record<CategoryId, string>;
 
+const cpuTierMap: Record<string, number> = {
+  "cpu-9600": 66,
+  "cpu-7600x": 70,
+  "cpu-7800x3d": 88,
+  "cpu-9700x": 82,
+  "cpu-9800x3d": 96,
+  "cpu-14600k": 78,
+  "cpu-14700k": 88,
+  "cpu-265k": 90,
+  "cpu-9900x": 92,
+};
+
+const gpuTierMap: Record<string, number> = {
+  "gpu-5060-msi": 62,
+  "gpu-5060ti-galax": 68,
+  "gpu-5060-palit": 63,
+  "gpu-rx9060xt": 76,
+  "gpu-5070-gigabyte": 84,
+  "gpu-5070-msi": 86,
+  "gpu-5070ti-asus": 93,
+  "gpu-5080-msi": 98,
+  "gpu-5080-asus": 99,
+};
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+const ramCapacityFrom = (part: Part) => Number(part.name.match(/(\d+)\s*GB/i)?.[1] ?? 32);
+const fpsRange = (center: number, spread: number) => `${Math.round(clamp(center - spread, 28, 420))}-${Math.round(clamp(center + spread, 32, 460))} FPS`;
+const qualityLabel = (value: number) => {
+  if (value >= 92) return "极高 / 最高";
+  if (value >= 78) return "高";
+  if (value >= 64) return "中高";
+  return "中";
+};
+
+const performanceTier = (value: number) => {
+  if (value >= 92) return "非常流畅";
+  if (value >= 78) return "流畅";
+  if (value >= 64) return "可流畅游玩";
+  return "建议适当降画质";
+};
+
 export default function Home() {
   const [presetId, setPresetId] = useState<string>(presets[0].id);
   const [selectedParts, setSelectedParts] = useState<Record<CategoryId, string>>(presets[0].parts);
@@ -1284,6 +1325,62 @@ export default function Home() {
     part: selectedPartRecord[category.id],
     offer: selectedOfferRecord[category.id],
   }));
+
+  const cpuTier = cpuTierMap[selectedPartRecord.cpu.id] ?? 72;
+  const gpuTier = gpuTierMap[selectedPartRecord.gpu.id] ?? 70;
+  const ramGb = ramCapacityFrom(selectedPartRecord.ram);
+  const storageTb = Number(selectedPartRecord.ssd.specs.capacityTb ?? 1);
+  const ramBonus = ramGb >= 64 ? 10 : ramGb >= 32 ? 5 : 0;
+
+  const esportsScore = clamp(cpuTier * 1.28 + gpuTier * 0.92 + ramBonus, 45, 100);
+  const aaaScore = clamp(cpuTier * 0.62 + gpuTier * 1.12 + ramBonus, 40, 100);
+  const heavyAaaScore = clamp(cpuTier * 0.48 + gpuTier * 1.06 + ramBonus - 4, 35, 100);
+
+  const gameEstimates = [
+    {
+      title: "主流竞技网游",
+      summary: "CS2 / Valorant / Apex / LoL",
+      fps: fpsRange(esportsScore * 2.35, 24),
+      quality: qualityLabel(esportsScore),
+      resolution: esportsScore >= 82 ? "1080p 高到极高，1440p 也较稳" : "1080p 中高到高",
+      smoothness: performanceTier(esportsScore),
+    },
+    {
+      title: "常见 3A 游戏",
+      summary: "黑神话 / 赛博朋克 / 地平线 / 荒野大镖客 2",
+      fps: fpsRange(aaaScore * 1.18, 12),
+      quality: qualityLabel(aaaScore),
+      resolution: aaaScore >= 86 ? "1440p 高画质" : aaaScore >= 72 ? "1080p 极高或 1440p 中高" : "1080p 中高",
+      smoothness: performanceTier(aaaScore),
+    },
+    {
+      title: "Steam 重度 3A",
+      summary: "星空 / Alan Wake 2 / 龙之信条 2 / 城市天际线 2",
+      fps: fpsRange(heavyAaaScore * 0.92, 10),
+      quality: qualityLabel(heavyAaaScore),
+      resolution: heavyAaaScore >= 88 ? "1440p 高画质，必要时开 DLSS/FSR" : "1080p 高或 1440p 中",
+      smoothness: performanceTier(heavyAaaScore),
+    },
+  ];
+
+  const buildHighlights = [
+    `CPU / GPU 组合强度：${performanceTier(clamp((cpuTier + gpuTier) / 2, 40, 100))}`,
+    `${ramGb}GB DDR5 内存适合当前主流游戏与多任务`,
+    `${storageTb}TB SSD 适合系统盘 + 常玩游戏库`,
+  ];
+
+  const defaultParts = presets[0].parts;
+  const defaultOfferMap = offerMapFrom(defaultParts);
+  const cheapestOfferMap = Object.fromEntries(
+    categories.map((category) => [category.id, cheapest(selectedPartRecord[category.id]).id])
+  ) as Record<CategoryId, string>;
+
+  const canResetToDefault =
+    JSON.stringify(selectedParts) !== JSON.stringify(defaultParts) ||
+    JSON.stringify(selectedOffers) !== JSON.stringify(defaultOfferMap) ||
+    presetId !== presets[0].id;
+
+  const canSwitchToCheapest = JSON.stringify(selectedOffers) !== JSON.stringify(cheapestOfferMap);
 
   const total = Object.values(selectedOfferRecord).reduce((sum, offer) => sum + toGbp(offer.price, offer.currency), 0);
 
@@ -1475,52 +1572,58 @@ export default function Home() {
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
+                  disabled={!canSwitchToCheapest}
                   onClick={() => {
-                    setSelectedOffers(
-                      Object.fromEntries(
-                        categories.map((category) => [category.id, cheapest(partsById.get(selectedParts[category.id])!).id])
-                      ) as Record<CategoryId, string>
-                    );
+                    setSelectedOffers(cheapestOfferMap);
                   }}
-                  className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#8be0d2]/40"
+                  className={`rounded-full border px-4 py-2 text-sm transition ${
+                    canSwitchToCheapest
+                      ? "border-white/10 bg-white/6 hover:border-[#8be0d2]/40"
+                      : "cursor-not-allowed border-white/8 bg-white/4 text-slate-500"
+                  }`}
                 >
-                  全部切到最低价
+                  {canSwitchToCheapest ? "全部切到最低价" : "当前已是最低价"}
                 </button>
                 <button
                   type="button"
+                  disabled={!canResetToDefault}
                   onClick={() => {
                     setPresetId(presets[0].id);
-                    setSelectedParts(presets[0].parts);
-                    setSelectedOffers(offerMapFrom(presets[0].parts));
+                    setSelectedParts(defaultParts);
+                    setSelectedOffers(defaultOfferMap);
                   }}
-                  className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#ff6b35]/50"
+                  className={`rounded-full border px-4 py-2 text-sm transition ${
+                    canResetToDefault
+                      ? "border-white/10 bg-white/6 hover:border-[#ff6b35]/50"
+                      : "cursor-not-allowed border-white/8 bg-white/4 text-slate-500"
+                  }`}
                 >
-                  恢复默认方案
+                  {canResetToDefault ? "恢复默认方案" : "当前已是默认方案"}
                 </button>
               </div>
             </div>
 
-            <div className="grid gap-5">
+            <div className="grid gap-4">
               {categories.map((category) => (
-                <section key={category.id} className="rounded-[20px] border border-white/10 bg-white/4 p-5">
-                  <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                <section key={category.id} className="rounded-[20px] border border-white/10 bg-white/4 p-4">
+                  <div className="mb-3 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                     <div>
-                      <h3 className="text-xl font-semibold">{category.title}</h3>
-                      <p className="mt-2 max-w-[58ch] text-sm leading-7 text-slate-300">{category.description}</p>
+                      <h3 className="text-lg font-semibold">{category.title}</h3>
+                      <p className="mt-1 max-w-[58ch] text-sm leading-6 text-slate-300">{category.description}</p>
                     </div>
-                    <span className="w-fit rounded-full border border-[#8be0d2]/30 px-3 py-2 text-sm text-[#8be0d2]">
+                    <span className="w-fit rounded-full border border-[#8be0d2]/30 px-3 py-1.5 text-xs text-[#8be0d2]">
                       {byCategory(category.id).length} 个可选项
                     </span>
                   </div>
 
-                  <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+                  <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                     {byCategory(category.id).map((part) => {
                       const currentOffer = chosenOffer(part, selectedOffers[category.id]);
 
                       return (
                         <article
                           key={part.id}
-                          className={`rounded-[18px] border bg-[#0a1728]/90 p-4 transition ${
+                          className={`rounded-[16px] border bg-[#0a1728]/90 p-3 transition ${
                             selectedParts[category.id] === part.id
                               ? "border-[#ff6b35]/60"
                               : "border-white/10 hover:border-[#ff6b35]/45"
@@ -1534,46 +1637,46 @@ export default function Home() {
                             }}
                             className="block w-full text-left"
                           >
-                            <div className="flex items-start justify-between gap-3">
-                              <div>
-                                <h4 className="text-lg leading-6 font-medium">{part.name}</h4>
-                                <p className="mt-1 text-sm text-slate-400">{part.brand}</p>
+                            <div className="flex items-start justify-between gap-2.5">
+                              <div className="min-w-0">
+                                <h4 className="line-clamp-2 text-[1.05rem] leading-5 font-medium">{part.name}</h4>
+                                <p className="mt-0.5 text-xs uppercase tracking-[0.12em] text-slate-400">{part.brand}</p>
                               </div>
-                              <span className="rounded-xl bg-[#8be0d2]/10 px-3 py-2 text-sm font-bold text-[#8be0d2]">
+                              <span className="shrink-0 rounded-xl bg-[#8be0d2]/10 px-2.5 py-1.5 text-sm font-bold text-[#8be0d2]">
                                 {gbp(toGbp(cheapest(part).price, cheapest(part).currency))}
                               </span>
                             </div>
-                            <p className="mt-4 min-h-14 text-sm leading-6 text-slate-300">{part.summary}</p>
-                            <div className="mt-3 flex flex-wrap gap-2">
+                            <p className="mt-3 line-clamp-2 min-h-10 text-xs leading-5 text-slate-300">{part.summary}</p>
+                            <div className="mt-2 flex flex-wrap gap-1.5">
                               {part.tags.map((tag) => (
-                                <span key={tag} className="rounded-full bg-white/6 px-2.5 py-1.5 text-xs text-slate-200">
+                                <span key={tag} className="rounded-full bg-white/6 px-2 py-1 text-[11px] text-slate-200">
                                   {tag}
                                 </span>
                               ))}
                             </div>
                           </button>
 
-                          <div className="mt-4 grid gap-2">
+                          <div className="mt-3 grid gap-1.5">
                             {part.offers.map((offer) => (
                               <button
                                 key={offer.id}
                                 type="button"
                                 onClick={() => setSelectedOffers((prev) => ({ ...prev, [category.id]: offer.id }))}
-                                className={`flex w-full items-start justify-between gap-3 rounded-[14px] border px-3 py-2 text-left transition ${
+                                className={`flex w-full items-start justify-between gap-2 rounded-[12px] border px-2.5 py-2 text-left transition ${
                                   currentOffer.id === offer.id
                                     ? "border-[#8be0d2]/45 bg-[#8be0d2]/8"
                                     : "border-white/10 bg-white/4 hover:border-[#8be0d2]/35"
                                 }`}
                               >
-                                <span className="grid gap-1">
-                                  <strong className="text-sm">
+                                <span className="grid min-w-0 gap-0.5">
+                                  <strong className="line-clamp-1 text-xs">
                                     {marketMeta[offer.market].label} · {offer.title}
                                   </strong>
-                                  <small className="text-xs text-slate-400">{offer.note}</small>
+                                  <small className="line-clamp-1 text-[11px] text-slate-400">{offer.note}</small>
                                 </span>
-                                <span className="text-right text-sm text-slate-200">
+                                <span className="shrink-0 text-right text-xs text-slate-200">
                                   {fmt(offer.price, offer.currency)}
-                                  <small className="block text-xs text-slate-400">
+                                  <small className="block text-[11px] text-slate-400">
                                     ≈ {gbp(toGbp(offer.price, offer.currency))}
                                   </small>
                                 </span>
@@ -1681,6 +1784,50 @@ export default function Home() {
               </div>
             </section>
           </aside>
+        </section>
+
+        <section className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px] md:p-7">
+          <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+            <div>
+              <p className="mb-2 text-[0.72rem] uppercase tracking-[0.18em] text-[#8be0d2]">Game Estimate</p>
+              <h2 className="text-4xl font-semibold tracking-[-0.04em]">当前配置游戏流畅度</h2>
+            </div>
+            <p className="max-w-[54ch] text-sm leading-7 text-slate-300">
+              这是基于当前 CPU、显卡和内存组合做的站内估算，适合快速判断主流网游、常见 3A 和 Steam 重度 3A 的大致帧率与画质区间。
+            </p>
+          </div>
+
+          <div className="mb-4 flex flex-wrap gap-2">
+            {buildHighlights.map((item) => (
+              <span key={item} className="rounded-full border border-[#8be0d2]/20 bg-[#8be0d2]/8 px-3 py-1.5 text-xs text-[#b8fff4]">
+                {item}
+              </span>
+            ))}
+          </div>
+
+          <div className="grid gap-4 xl:grid-cols-3">
+            {gameEstimates.map((item) => (
+              <article key={item.title} className="rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#8be0d2]">{item.title}</p>
+                <h3 className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{item.fps}</h3>
+                <p className="mt-1 text-sm text-slate-400">{item.summary}</p>
+                <div className="mt-4 grid gap-2 text-sm">
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/4 px-3 py-2">
+                    <span className="text-slate-400">推荐画质</span>
+                    <strong>{item.quality}</strong>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/4 px-3 py-2">
+                    <span className="text-slate-400">建议分辨率</span>
+                    <strong className="text-right">{item.resolution}</strong>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/4 px-3 py-2">
+                    <span className="text-slate-400">流畅度判断</span>
+                    <strong className="text-[#8be0d2]">{item.smoothness}</strong>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px] md:p-7">
