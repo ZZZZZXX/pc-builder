@@ -228,6 +228,8 @@ export default function Home() {
   const [presetId, setPresetId] = useState<string>(presets[0].id);
   const [selectedParts, setSelectedParts] = useState<Record<CategoryId, string>>(presets[0].parts);
   const [selectedOffers, setSelectedOffers] = useState<Record<CategoryId, string>>(offerMapFrom(presets[0].parts));
+  const activePreset = presets.find((preset) => preset.id === presetId) ?? presets[0];
+  const isCustomBuild = JSON.stringify(selectedParts) !== JSON.stringify(activePreset.parts);
 
   const selectedPartRecord = Object.fromEntries(categories.map((category) => [category.id, partsById.get(selectedParts[category.id])!])) as Record<CategoryId, Part>;
   const selectedOfferRecord = Object.fromEntries(categories.map((category) => [category.id, chosenOffer(selectedPartRecord[category.id], selectedOffers[category.id])])) as Record<CategoryId, Offer>;
@@ -316,6 +318,46 @@ export default function Home() {
               <div><p className="mb-2 text-[0.72rem] uppercase tracking-[0.18em] text-[#8be0d2]">Builder</p><h2 className="text-4xl font-semibold tracking-[-0.04em]">主流装机配件目录</h2></div>
               <p className="max-w-[48ch] text-sm leading-7 text-slate-300">点击每一类中的配件卡片即可切换方案。每张卡片下方可以继续切换当前采用的价格来源。</p>
             </div>
+            <div className="mb-5 rounded-[20px] border border-[#8be0d2]/25 bg-[#8be0d2]/8 p-4">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <strong className="block text-sm text-[#8be0d2]">DIY 自定义装机</strong>
+                  <p className="mt-1 text-sm leading-6 text-slate-300">
+                    预设只是快捷入口。你可以自己逐项选择 CPU、主板、显卡、内存、SSD、电源、机箱和散热器，
+                    页面会同步刷新每个配件价格与整机总价。
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedOffers(() =>
+                        Object.fromEntries(
+                          categories.map((category) => [
+                            category.id,
+                            cheapest(partsById.get(selectedParts[category.id])!).id,
+                          ])
+                        ) as Record<CategoryId, string>
+                      );
+                    }}
+                    className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#8be0d2]/40"
+                  >
+                    全部切到最低价
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPresetId(presets[0].id);
+                      setSelectedParts(presets[0].parts);
+                      setSelectedOffers(offerMapFrom(presets[0].parts));
+                    }}
+                    className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#ff6b35]/50"
+                  >
+                    恢复默认方案
+                  </button>
+                </div>
+              </div>
+            </div>
             <div className="mb-5 flex flex-wrap gap-3">
               {presets.map((preset) => <button key={preset.id} type="button" onClick={() => { setPresetId(preset.id); setSelectedParts(preset.parts); setSelectedOffers(offerMapFrom(preset.parts)); }} className={`rounded-full border px-4 py-2 text-sm transition ${presetId === preset.id ? "border-[#ff6b35]/70 bg-[#ff6b35]/15" : "border-white/10 bg-white/5 hover:border-[#ff6b35]/60 hover:bg-[#ff6b35]/10"}`}>{preset.name}</button>)}
             </div>
@@ -350,13 +392,18 @@ export default function Home() {
           <aside className="grid gap-4 xl:sticky xl:top-5">
             <section className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px]">
               <p className="mb-2 text-[0.72rem] uppercase tracking-[0.18em] text-[#8be0d2]">Current Build</p>
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <span className={`rounded-full px-3 py-1 text-xs ${isCustomBuild ? "bg-[#8be0d2]/12 text-[#8be0d2]" : "bg-[#ff6b35]/12 text-[#ffb89d]"}`}>
+                  {isCustomBuild ? "DIY 自定义中" : `当前基于 ${activePreset.name}`}
+                </span>
+              </div>
               <h2 className="text-3xl font-semibold tracking-[-0.04em]">{selectedPartRecord.cpu.name} + {selectedPartRecord.gpu.name}</h2>
               <p className="mt-2 text-sm leading-7 text-slate-300">{selectedPartRecord.motherboard.name} / {selectedPartRecord.ram.name} / {selectedPartRecord.case.name}</p>
               <div className="mt-5 rounded-[20px] bg-[linear-gradient(135deg,rgba(255,107,53,0.16),rgba(255,107,53,0.04)),rgba(255,255,255,0.03)] p-5"><span className="block text-sm text-slate-300">预估总价</span><strong className="mt-2 block text-4xl tracking-[-0.04em]">{gbp(total)}</strong><small className="block text-sm text-slate-400">按 1 USD = 0.7465 GBP 估算，快照日期 {snapshotDate}</small></div>
             </section>
             <section className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px]">
               <div className="mb-4 flex items-center justify-between gap-3"><h3 className="text-lg font-semibold">已选配件</h3><span className="rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">{categories.length} / {categories.length}</span></div>
-              <div className="grid gap-2.5">{categories.map((category) => <div key={category.id} className="rounded-2xl border border-white/10 bg-white/4 px-4 py-3"><strong className="block text-sm">{category.title} · {selectedPartRecord[category.id].name}</strong><small className="text-xs leading-6 text-slate-400">{marketMeta[selectedOfferRecord[category.id].market].label} · {fmt(selectedOfferRecord[category.id].price, selectedOfferRecord[category.id].currency)} · 约 {gbp(toGbp(selectedOfferRecord[category.id].price, selectedOfferRecord[category.id].currency))}</small></div>)}</div>
+              <div className="grid gap-2.5">{categories.map((category) => <div key={category.id} className="rounded-2xl border border-white/10 bg-white/4 px-4 py-3"><strong className="block text-sm">{category.title} · {selectedPartRecord[category.id].name}</strong><small className="text-xs leading-6 text-slate-400">{marketMeta[selectedOfferRecord[category.id].market].label} · {fmt(selectedOfferRecord[category.id].price, selectedOfferRecord[category.id].currency)} · 约 {gbp(toGbp(selectedOfferRecord[category.id].price, selectedOfferRecord[category.id].currency))}</small><a href={selectedOfferRecord[category.id].url} target="_blank" rel="noreferrer" className="mt-2 inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-slate-200 hover:border-[#8be0d2]/40">查看当前价格来源</a></div>)}</div>
             </section>
             <section className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px]">
               <h3 className="mb-4 text-lg font-semibold">兼容性检查</h3>
