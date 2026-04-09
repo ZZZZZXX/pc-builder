@@ -1649,6 +1649,286 @@ const extraParts: Part[] = [
         url: "https://www.amazon.com/s?k=Phanteks+XT+Pro+Ultra",
       },
     ],
+  },
+  {
+    id: "cpu-285k",
+    category: "cpu",
+    name: "Core Ultra 9 285K",
+    brand: "Intel",
+    summary: "Top-end Core Ultra desktop CPU for heavy creation, streaming, and flagship hybrid builds.",
+    tags: ["LGA1851", "24 Cores", "125W"],
+    specs: { socket: "LGA1851", tdp: 125 },
+    offers: [
+      {
+        id: "cpu-285k-bestbuy",
+        market: "bestbuy",
+        title: "current listing",
+        price: 589.99,
+        currency: "USD",
+        note: "Best Buy",
+        url: "https://www.bestbuy.com/site/searchpage.jsp?st=Core+Ultra+9+285K",
+      },
+    ],
+  },
+  {
+    id: "mobo-n7-b650e",
+    category: "motherboard",
+    name: "N7 B650E",
+    brand: "NZXT",
+    summary: "Clean-cover AM5 motherboard for white or minimal builds that care about visual consistency.",
+    tags: ["AM5", "ATX", "DDR5"],
+    specs: { socket: "AM5", formFactor: "ATX", memoryType: "DDR5" },
+    offers: [
+      {
+        id: "mobo-n7-b650e-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 269.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=NZXT+N7+B650E",
+      },
+    ],
+  },
+  {
+    id: "mobo-b860-strix",
+    category: "motherboard",
+    name: "ROG Strix B860-F Gaming WiFi",
+    brand: "ASUS",
+    summary: "Upper-mid Intel board for newer Core Ultra builds with a stronger feature set and styling.",
+    tags: ["LGA1851", "ATX", "DDR5"],
+    specs: { socket: "LGA1851", formFactor: "ATX", memoryType: "DDR5" },
+    offers: [
+      {
+        id: "mobo-b860-strix-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 259.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=ROG+Strix+B860-F+Gaming+WiFi",
+      },
+    ],
+  },
+  {
+    id: "gpu-9070xt-powercolor",
+    category: "gpu",
+    name: "Radeon RX 9070 XT Hellhound",
+    brand: "PowerColor",
+    summary: "Well-known Radeon partner card aimed at high-refresh 1440p and entry 4K play.",
+    tags: ["1440p Ultra", "16GB", "AMD"],
+    specs: { performanceTier: "flagship", vramGb: 16, powerDraw: 304 },
+    offers: [
+      {
+        id: "gpu-9070xt-powercolor-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 699.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=PowerColor+RX+9070+XT+Hellhound",
+      },
+    ],
+  },
+  {
+    id: "ram-dominator-titanium",
+    category: "ram",
+    name: "Dominator Titanium RGB DDR5 32GB 6400",
+    brand: "Corsair",
+    summary: "Premium RGB DDR5 kit for showcase builds and higher-clocked gaming setups.",
+    tags: ["32GB", "DDR5-6400", "Premium RGB"],
+    specs: { capacityGb: 32, speed: 6400, memoryType: "DDR5" },
+    offers: [
+      {
+        id: "ram-dominator-titanium-official",
+        market: "official",
+        title: "brand store",
+        price: 174.99,
+        currency: "USD",
+        note: "Corsair official",
+        url: "https://www.corsair.com/us/en/s/dominator-titanium-ddr5-memory",
+      },
+    ],
+  },
+  {
+    id: "ram-ares-rgb",
+    category: "ram",
+    name: "ARES RGB DDR5 32GB 6400",
+    brand: "Lexar",
+    summary: "Fast RGB DDR5 kit suited to users who want higher clocks and a slimmer module profile.",
+    tags: ["32GB", "DDR5-6400", "RGB"],
+    specs: { capacityGb: 32, speed: 6400, memoryType: "DDR5" },
+    offers: [
+      {
+        id: "ram-ares-rgb-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 119.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Lexar+ARES+RGB+DDR5+32GB+6400",
+      },
+    ],
+  },
+  {
+    id: "ssd-firecuda530r",
+    category: "ssd",
+    name: "FireCuda 530R 2TB",
+    brand: "Seagate",
+    summary: "High-end PCIe 4.0 SSD tuned for heavier game libraries and sustained transfer work.",
+    tags: ["2TB", "PCIe 4.0", "High End"],
+    specs: { capacityTb: 2, interface: "PCIe 4.0" },
+    offers: [
+      {
+        id: "ssd-firecuda530r-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 169.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=FireCuda+530R+2TB",
+      },
+    ],
+  },
+  {
+    id: "ssd-p44pro",
+    category: "ssd",
+    name: "P44 Pro 2TB",
+    brand: "Solidigm",
+    summary: "Fast premium SSD with strong random performance for game-heavy and workstation use.",
+    tags: ["2TB", "PCIe 4.0", "Premium"],
+    specs: { capacityTb: 2, interface: "PCIe 4.0" },
+    offers: [
+      {
+        id: "ssd-p44pro-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 159.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Solidigm+P44+Pro+2TB",
+      },
+    ],
+  },
+  {
+    id: "cooler-liquid-freezer-iii",
+    category: "cooler",
+    name: "Liquid Freezer III 360",
+    brand: "Arctic",
+    summary: "AIO favorite for excellent thermal performance and good value on higher-power CPUs.",
+    tags: ["360mm", "AIO", "High Performance"],
+    specs: { coolerType: "liquid", maxRadiatorMm: 360 },
+    offers: [
+      {
+        id: "cooler-liquid-freezer-iii-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 139.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Arctic+Liquid+Freezer+III+360",
+      },
+    ],
+  },
+  {
+    id: "cooler-phantom-spirit",
+    category: "cooler",
+    name: "Phantom Spirit 120 SE",
+    brand: "Thermalright",
+    summary: "Excellent-value dual-tower air cooler that is still widely recommended for gaming CPUs.",
+    tags: ["Air", "Dual Tower", "Value"],
+    specs: { coolerType: "air", maxRadiatorMm: 0 },
+    offers: [
+      {
+        id: "cooler-phantom-spirit-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 37.9,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Thermalright+Phantom+Spirit+120+SE",
+      },
+    ],
+  },
+  {
+    id: "psu-leadex-vii",
+    category: "psu",
+    name: "Leadex VII XG 1000W",
+    brand: "Super Flower",
+    summary: "High-capacity gold PSU with strong reputation for flagship GPU and future-proof upgrades.",
+    tags: ["1000W", "ATX 3.1", "Gold"],
+    specs: { wattage: 1000 },
+    offers: [
+      {
+        id: "psu-leadex-vii-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 189.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Super+Flower+Leadex+VII+XG+1000W",
+      },
+    ],
+  },
+  {
+    id: "psu-toughpower-gfa3",
+    category: "psu",
+    name: "Toughpower GF A3 850W",
+    brand: "Thermaltake",
+    summary: "Modern ATX 3-ready PSU for high-end gaming builds that still want sensible pricing.",
+    tags: ["850W", "ATX 3.0", "Gold"],
+    specs: { wattage: 850 },
+    offers: [
+      {
+        id: "psu-toughpower-gfa3-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 124.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Toughpower+GF+A3+850W",
+      },
+    ],
+  },
+  {
+    id: "case-c8",
+    category: "case",
+    name: "C8",
+    brand: "Antec",
+    summary: "Dual-chamber panoramic case for showcase builds with long GPUs and multiple radiators.",
+    tags: ["ATX", "Panoramic", "Dual Chamber"],
+    specs: { supportedFormFactors: ["ATX", "mATX", "Mini-ITX"], maxGpuLengthMm: 440, maxRadiatorMm: 360 },
+    offers: [
+      {
+        id: "case-c8-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 109.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=Antec+C8",
+      },
+    ],
+  },
+  {
+    id: "case-lightbase-600",
+    category: "case",
+    name: "Light Base 600 LX",
+    brand: "be quiet!",
+    summary: "Premium showcase chassis for quieter high-end systems with lots of cooling flexibility.",
+    tags: ["ATX", "Showcase", "Premium"],
+    specs: { supportedFormFactors: ["ATX", "mATX", "Mini-ITX"], maxGpuLengthMm: 400, maxRadiatorMm: 360 },
+    offers: [
+      {
+        id: "case-lightbase-600-amazon",
+        market: "amazon",
+        title: "price snapshot",
+        price: 169.99,
+        currency: "USD",
+        note: "Amazon snapshot",
+        url: "https://www.amazon.com/s?k=be+quiet+Light+Base+600+LX",
+      },
+    ],
   }
 ];
 
@@ -1732,6 +2012,8 @@ const gbp = (price: number) =>
   new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(price);
 
 const byCategory = (categoryId: CategoryId) => parts.filter((part) => part.category === categoryId);
+const brandsForCategory = (categoryId: CategoryId) =>
+  [...new Set(byCategory(categoryId).map((part) => part.brand))].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
 
 const cheapest = (part: Part) =>
   [...part.offers].sort((a, b) => toGbp(a.price, a.currency) - toGbp(b.price, b.currency))[0];
@@ -1744,6 +2026,14 @@ const offerMapFrom = (selected: Record<CategoryId, string>) =>
     Object.entries(selected).map(([categoryId, partId]) => [categoryId, cheapest(partsById.get(partId)!).id])
   ) as Record<CategoryId, string>;
 
+const brandMapFrom = (selected: Record<CategoryId, string>) =>
+  Object.fromEntries(
+    categories.map((category) => [
+      category.id,
+      partsById.get(selected[category.id])?.brand ?? brandsForCategory(category.id)[0] ?? "",
+    ])
+  ) as Record<CategoryId, string>;
+
 const cpuTierMap: Record<string, number> = {
   "cpu-9600": 66,
   "cpu-7600x": 70,
@@ -1753,6 +2043,7 @@ const cpuTierMap: Record<string, number> = {
   "cpu-14600k": 78,
   "cpu-14700k": 88,
   "cpu-265k": 90,
+  "cpu-285k": 96,
   "cpu-9900x": 92,
 };
 
@@ -1768,6 +2059,7 @@ const gpuTierMap: Record<string, number> = {
   "gpu-5070-zotac": 85,
   "gpu-5070ti-asus": 93,
   "gpu-9070xt-xfx": 95,
+  "gpu-9070xt-powercolor": 95,
   "gpu-5080-msi": 98,
   "gpu-5080-asus": 99,
 };
@@ -1793,6 +2085,7 @@ export default function Home() {
   const [presetId, setPresetId] = useState<string>(presets[0].id);
   const [selectedParts, setSelectedParts] = useState<Record<CategoryId, string>>(presets[0].parts);
   const [selectedOffers, setSelectedOffers] = useState<Record<CategoryId, string>>(offerMapFrom(presets[0].parts));
+  const [activeBrands, setActiveBrands] = useState<Record<CategoryId, string>>(brandMapFrom(presets[0].parts));
   const activePreset = presets.find((preset) => preset.id === presetId) ?? presets[0];
   const isCustomBuild = JSON.stringify(selectedParts) !== JSON.stringify(activePreset.parts);
 
@@ -2028,7 +2321,7 @@ export default function Home() {
                 <h2 className="text-4xl font-semibold tracking-[-0.04em]">多品牌 DIY 选配目录</h2>
               </div>
               <p className="max-w-[48ch] text-sm leading-7 text-slate-300">
-                每个分类里都加入了更多主流品牌与常用型号。点卡片切换配件，点下方市场按钮切换当前采用的价格来源。
+                现在每个分类都会先按品牌归类，再展开品牌下的具体型号。先选品牌，再选配件，浏览和比较会更清楚。
               </p>
             </div>
 
@@ -2042,6 +2335,7 @@ export default function Home() {
                       setPresetId(preset.id);
                       setSelectedParts(preset.parts);
                       setSelectedOffers(offerMapFrom(preset.parts));
+                      setActiveBrands(brandMapFrom(preset.parts));
                     }}
                     className={`rounded-full border px-4 py-2 text-sm transition ${
                       presetId === preset.id
@@ -2075,6 +2369,7 @@ export default function Home() {
                     setPresetId(presets[0].id);
                     setSelectedParts(defaultParts);
                     setSelectedOffers(defaultOfferMap);
+                    setActiveBrands(brandMapFrom(defaultParts));
                   }}
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     canResetToDefault
@@ -2088,7 +2383,14 @@ export default function Home() {
             </div>
 
             <div className="grid gap-4">
-              {categories.map((category) => (
+              {categories.map((category) => {
+                const categoryParts = byCategory(category.id);
+                const categoryBrands = brandsForCategory(category.id);
+                const activeBrand = categoryBrands.includes(activeBrands[category.id]) ? activeBrands[category.id] : categoryBrands[0];
+                const visibleParts = categoryParts.filter((part) => part.brand === activeBrand);
+                const selectedBrand = selectedPartRecord[category.id].brand;
+
+                return (
                 <section key={category.id} className="rounded-[20px] border border-white/10 bg-white/4 p-4">
                   <div className="mb-3 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                     <div>
@@ -2096,12 +2398,62 @@ export default function Home() {
                       <p className="mt-1 max-w-[58ch] text-sm leading-6 text-slate-300">{category.description}</p>
                     </div>
                     <span className="w-fit rounded-full border border-[#8be0d2]/30 px-3 py-1.5 text-xs text-[#8be0d2]">
-                      {byCategory(category.id).length} 个可选项
+                      {categoryBrands.length} brands / {categoryParts.length} parts
+                    </span>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <p className="text-xs uppercase tracking-[0.14em] text-[#8be0d2]">Select Brand First</p>
+                      <p className="text-xs text-slate-400">Current brand: {selectedBrand}</p>
+                    </div>
+                    <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                      {categoryBrands.map((brand) => {
+                        const brandParts = categoryParts.filter((part) => part.brand === brand);
+                        const isActive = activeBrand === brand;
+                        const isSelected = selectedBrand === brand;
+
+                        return (
+                          <button
+                            key={brand}
+                            type="button"
+                            onClick={() => setActiveBrands((prev) => ({ ...prev, [category.id]: brand }))}
+                            className={`rounded-[16px] border px-4 py-3 text-left transition ${
+                              isActive
+                                ? "border-[#8be0d2]/55 bg-[#8be0d2]/10"
+                                : "border-white/10 bg-[#0a1728]/70 hover:border-[#8be0d2]/35"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0">
+                                <strong className="block truncate text-sm">{brand}</strong>
+                                <span className="mt-1 block text-xs text-slate-400">
+                                  {brandParts.length} models{isSelected ? " · selected" : ""}
+                                </span>
+                              </div>
+                              <span
+                                className={`rounded-full px-2.5 py-1 text-[11px] ${
+                                  isActive ? "bg-[#8be0d2]/14 text-[#b8fff4]" : "bg-white/6 text-slate-300"
+                                }`}
+                              >
+                                {brandParts.length}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <p className="text-xs uppercase tracking-[0.14em] text-[#8be0d2]">{activeBrand} models</p>
+                    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">
+                      {visibleParts.length} shown
                     </span>
                   </div>
 
                   <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-                    {byCategory(category.id).map((part) => {
+                    {visibleParts.map((part) => {
                       const currentOffer = chosenOffer(part, selectedOffers[category.id]);
 
                       return (
@@ -2118,6 +2470,7 @@ export default function Home() {
                             onClick={() => {
                               setSelectedParts((prev) => ({ ...prev, [category.id]: part.id }));
                               setSelectedOffers((prev) => ({ ...prev, [category.id]: cheapest(part).id }));
+                              setActiveBrands((prev) => ({ ...prev, [category.id]: part.brand }));
                             }}
                             className="block w-full text-left"
                           >
@@ -2172,7 +2525,8 @@ export default function Home() {
                     })}
                   </div>
                 </section>
-              ))}
+                );
+              })}
             </div>
           </div>
           <aside className="pc-scrollbar grid gap-4 xl:sticky xl:top-5 xl:self-start xl:h-[calc(100vh-2.5rem)] xl:overflow-y-scroll xl:overscroll-contain xl:pr-2 xl:pb-4">
