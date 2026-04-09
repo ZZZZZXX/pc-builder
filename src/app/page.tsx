@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import livePrices from "@/data/live-prices.json";
 
 type CategoryId = "cpu" | "motherboard" | "gpu" | "ram" | "ssd" | "cooler" | "psu" | "case";
 type MarketId = "amazon" | "joybuy" | "aliexpress" | "bestbuy" | "official";
@@ -32,9 +33,21 @@ type Preset = {
   parts: Record<CategoryId, string>;
 };
 
+type LivePriceEntry = {
+  price: number;
+  currency: Offer["currency"];
+  note: string;
+  checkedAt: string;
+  url: string;
+  autoRefresh: boolean;
+  lastError?: string;
+};
+
 const usdToGbp = 0.7465;
 const eurToGbp = 0.8575;
-const snapshotDate = "2026-04-09";
+const baseSnapshotDate = "2026-04-09";
+const livePriceFeed = livePrices as { lastCheckedAt: string; offers: Record<string, LivePriceEntry> };
+const snapshotDate = livePriceFeed.lastCheckedAt?.slice(0, 10) || baseSnapshotDate;
 
 const marketMeta: Record<MarketId, { label: string; color: string }> = {
   amazon: { label: "Amazon", color: "#ffb703" },
@@ -55,7 +68,7 @@ const categories: { id: CategoryId; title: string; description: string }[] = [
   { id: "case", title: "机箱", description: "加入 MSI、NZXT、Lian Li 等常用风道机箱，方便根据主板板型和显卡长度自由搭配。" },
 ];
 
-const parts: Part[] = [
+const catalogParts: Part[] = [
   {
     id: "cpu-9600",
     category: "cpu",
@@ -876,6 +889,307 @@ const parts: Part[] = [
   },
 ];
 
+const extraParts: Part[] = [
+  {
+    id: "cpu-7600x",
+    category: "cpu",
+    name: "Ryzen 5 7600X",
+    brand: "AMD",
+    summary: "热门六核 AM5 处理器，适合强调性价比的游戏装机。",
+    tags: ["AM5", "6 核", "105W"],
+    specs: { socket: "AM5", tdp: 105 },
+    offers: [
+      {
+        id: "cpu-7600x-bestbuy",
+        market: "bestbuy",
+        title: "当前在售",
+        price: 190.99,
+        currency: "USD",
+        note: "Best Buy",
+        url: "https://www.bestbuy.com/site/searchpage.jsp?id=pcat17071&st=amd+ryzen+5+7600x",
+      },
+    ],
+  },
+  {
+    id: "cpu-14700k",
+    category: "cpu",
+    name: "Core i7-14700K",
+    brand: "Intel",
+    summary: "高性能游戏与创作处理器，适合更高阶的 Intel 平台装机。",
+    tags: ["LGA1700", "20 核", "125W"],
+    specs: { socket: "LGA1700", tdp: 125 },
+    offers: [
+      {
+        id: "cpu-14700k-bestbuy",
+        market: "bestbuy",
+        title: "当前在售",
+        price: 403.74,
+        currency: "USD",
+        note: "Best Buy",
+        url: "https://www.bestbuy.com/product/intel-core-i7-14700k-14th-gen-20-core-28-thread-4-3ghz-5-6ghz-turbo-socket-lga-1700-unlocked-desktop-processor-multi/JXZRJ557C2/sku/11232138",
+      },
+    ],
+  },
+  {
+    id: "cpu-9900x",
+    category: "cpu",
+    name: "Ryzen 9 9900X",
+    brand: "AMD",
+    summary: "面向高端创作和多任务的 12 核处理器，适合旗舰级整机。",
+    tags: ["AM5", "12 核", "120W"],
+    specs: { socket: "AM5", tdp: 120 },
+    offers: [
+      {
+        id: "cpu-9900x-bestbuy",
+        market: "bestbuy",
+        title: "当前在售",
+        price: 439,
+        currency: "USD",
+        note: "Best Buy",
+        url: "https://www.bestbuy.com/product/amd-ryzen-9-9900x-12-core-24-thread-4-4-ghz-5-6-ghz-max-boost-socket-am5-120w-unlocked-desktop-processor-silver/JXKQHH5XS4",
+      },
+    ],
+  },
+  {
+    id: "mobo-b650-aorus",
+    category: "motherboard",
+    name: "B650 AORUS ELITE AX",
+    brand: "Gigabyte",
+    summary: "热门 AM5 ATX 主板，适合 Ryzen 中高端装机。",
+    tags: ["AM5", "ATX", "DDR5"],
+    specs: { socket: "AM5", formFactor: "ATX", memoryType: "DDR5" },
+    offers: [
+      {
+        id: "mobo-b650-aorus-bestbuy",
+        market: "bestbuy",
+        title: "当前在售",
+        price: 149.99,
+        currency: "USD",
+        note: "Best Buy",
+        url: "https://www.bestbuy.com/site/gigabyte-b650-aorus-elite-ax-socket-am5-amd-b650-atx-ddr5-wi-fi-6e-motherboard-black/6523178.p",
+      },
+    ],
+  },
+  {
+    id: "gpu-rx9060xt",
+    category: "gpu",
+    name: "RX 9060 XT 16GB GAMING OC",
+    brand: "Gigabyte",
+    summary: "主流 AMD 显卡选择，适合预算更灵活的 1440p 方案。",
+    tags: ["16GB", "182W", "AMD"],
+    specs: { boardPower: 182, lengthMm: 281 },
+    offers: [
+      {
+        id: "gpu-rx9060xt-joybuy",
+        market: "joybuy",
+        title: "活动快照",
+        price: 399,
+        currency: "GBP",
+        note: "Joybuy 活动页",
+        url: "https://www.joybuy.co.uk/cms/unleash-the-ultimate-gaming-power",
+      },
+    ],
+  },
+  {
+    id: "gpu-5080-msi",
+    category: "gpu",
+    name: "GeForce RTX 5080 16G GAMING TRIO OC",
+    brand: "MSI",
+    summary: "更高档的 4K 级显卡，适合旗舰装机。",
+    tags: ["16GB", "360W", "旗舰"],
+    specs: { boardPower: 360, lengthMm: 338 },
+    offers: [
+      {
+        id: "gpu-5080-msi-joybuy",
+        market: "joybuy",
+        title: "活动快照",
+        price: 1284.99,
+        currency: "GBP",
+        note: "Joybuy 活动页",
+        url: "https://www.joybuy.co.uk/cms/unleash-the-ultimate-gaming-power",
+      },
+    ],
+  },
+  {
+    id: "gpu-5080-asus",
+    category: "gpu",
+    name: "TUF-RTX 5080 O16G-GAMING",
+    brand: "ASUS",
+    summary: "高端 TUF 系列显卡，适合高性能与稳重风格整机。",
+    tags: ["16GB", "360W", "TUF"],
+    specs: { boardPower: 360, lengthMm: 348 },
+    offers: [
+      {
+        id: "gpu-5080-asus-joybuy",
+        market: "joybuy",
+        title: "活动快照",
+        price: 1419.99,
+        currency: "GBP",
+        note: "Joybuy 活动页",
+        url: "https://www.joybuy.co.uk/cms/unleash-the-ultimate-gaming-power",
+      },
+    ],
+  },
+  {
+    id: "ssd-mp600elite",
+    category: "ssd",
+    name: "MP600 ELITE 2TB",
+    brand: "Corsair",
+    summary: "Corsair 的主流 2TB PCIe 4.0 SSD，适合游戏库和日常创作。",
+    tags: ["2TB", "PCIe 4.0"],
+    specs: { capacityTb: 2 },
+    offers: [
+      {
+        id: "ssd-mp600elite-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 439.99,
+        currency: "USD",
+        note: "Corsair 官方",
+        url: "https://www.corsair.com/us/en/p/data-storage/cssd-f2000gbmp600enh/mp600-elite-2tb-pcie-gen4-x4-nvme-1-4-m-2-ssd-cssd-f2000gbmp600enh",
+      },
+    ],
+  },
+  {
+    id: "cooler-nautilus",
+    category: "cooler",
+    name: "NAUTILUS 360 RS ARGB",
+    brand: "Corsair",
+    summary: "更简洁的 Corsair 360 水冷，适合主流高性能装机。",
+    tags: ["360 水冷", "ARGB"],
+    specs: { supportedSockets: ["AM5", "LGA1700", "LGA1851"], radiatorMm: 360 },
+    offers: [
+      {
+        id: "cooler-nautilus-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 129.99,
+        currency: "USD",
+        note: "Corsair 官方",
+        url: "https://www.corsair.com/us/en/p/cpu-coolers/cw-9060093-ww/nautilus-360-rs-argb-liquid-cpu-cooler-cw-9060093-ww",
+      },
+    ],
+  },
+  {
+    id: "psu-rm750e",
+    category: "psu",
+    name: "RM750e",
+    brand: "Corsair",
+    summary: "热门 750W 电源，适合 RTX 5070 与主流高性能整机。",
+    tags: ["750W", "ATX 3.1"],
+    specs: { wattage: 750 },
+    offers: [
+      {
+        id: "psu-rm750e-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 114.99,
+        currency: "USD",
+        note: "Corsair 官方",
+        url: "https://www.corsair.com/us/en/p/psu/cp-9020262-na/rme-series-rm750e-fully-modular-low-noise-atx-power-supply-cp-9020262-na",
+      },
+    ],
+  },
+  {
+    id: "psu-rm1000e",
+    category: "psu",
+    name: "RM1000e",
+    brand: "Corsair",
+    summary: "为旗舰显卡和高功耗平台准备的 1000W 电源。",
+    tags: ["1000W", "ATX 3.1"],
+    specs: { wattage: 1000 },
+    offers: [
+      {
+        id: "psu-rm1000e-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 189.99,
+        currency: "USD",
+        note: "Corsair 官方",
+        url: "https://www.corsair.com/us/en/p/psu/cp-9020250-na/rme-series-rm1000e-fully-modular-low-noise-atx-power-supply-cp-9020250-na",
+      },
+    ],
+  },
+  {
+    id: "case-h6",
+    category: "case",
+    name: "H6 Flow",
+    brand: "NZXT",
+    summary: "双仓结构风道机箱，适合展示型装机与更强的显卡散热。",
+    tags: ["ATX", "双仓", "高风道"],
+    specs: { supportedFormFactors: ["ATX", "mATX", "Mini-ITX"], maxGpuLengthMm: 365, maxRadiatorMm: 360 },
+    offers: [
+      {
+        id: "case-h6-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 99.99,
+        currency: "USD",
+        note: "NZXT 官方",
+        url: "https://nzxt.com/en-US/product/h6-flow",
+      },
+    ],
+  },
+  {
+    id: "case-h9",
+    category: "case",
+    name: "H9 Flow",
+    brand: "NZXT",
+    summary: "更大的双仓全景机箱，适合旗舰散热和展示型整机。",
+    tags: ["ATX", "双仓", "旗舰"],
+    specs: { supportedFormFactors: ["ATX", "mATX", "Mini-ITX"], maxGpuLengthMm: 435, maxRadiatorMm: 420 },
+    offers: [
+      {
+        id: "case-h9-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 119.99,
+        currency: "USD",
+        note: "NZXT 官方",
+        url: "https://nzxt.com/en-US/product/h9-flow",
+      },
+    ],
+  },
+  {
+    id: "case-3500x",
+    category: "case",
+    name: "3500X ARGB",
+    brand: "Corsair",
+    summary: "玻璃展示型机箱，适合白色主题与高颜值 RGB 装机。",
+    tags: ["ATX", "ARGB", "海景"],
+    specs: { supportedFormFactors: ["ATX", "mATX", "Mini-ITX"], maxGpuLengthMm: 410, maxRadiatorMm: 360 },
+    offers: [
+      {
+        id: "case-3500x-official",
+        market: "official",
+        title: "品牌商城价",
+        price: 119.99,
+        currency: "USD",
+        note: "Corsair 官方",
+        url: "https://www.corsair.com/us/en/p/pc-cases/cc-9011278-ww/3500x-argb-mid-tower-pc-case-cc-9011278-ww",
+      },
+    ],
+  }
+];
+
+const parts: Part[] = [...catalogParts, ...extraParts].map((part) => ({
+  ...part,
+  offers: part.offers.map((offer) => {
+    const liveEntry = livePriceFeed.offers[offer.id];
+    if (!liveEntry) {
+      return offer;
+    }
+
+    return {
+      ...offer,
+      price: liveEntry.price ?? offer.price,
+      currency: liveEntry.currency ?? offer.currency,
+      note: liveEntry.note ?? offer.note,
+      url: liveEntry.url ?? offer.url,
+    };
+  }),
+}));
+
 const presets: Preset[] = [
   {
     id: "balanced",
@@ -964,6 +1278,12 @@ export default function Home() {
   const selectedOfferRecord = Object.fromEntries(
     categories.map((category) => [category.id, chosenOffer(selectedPartRecord[category.id], selectedOffers[category.id])])
   ) as Record<CategoryId, Offer>;
+
+  const selectedLinkGroups = categories.map((category) => ({
+    category,
+    part: selectedPartRecord[category.id],
+    offer: selectedOfferRecord[category.id],
+  }));
 
   const total = Object.values(selectedOfferRecord).reduce((sum, offer) => sum + toGbp(offer.price, offer.currency), 0);
 
@@ -1083,7 +1403,7 @@ export default function Home() {
               ["快照日期", snapshotDate],
               ["已接入市场", "Amazon / Joybuy / AliExpress / Best Buy / 品牌商城"],
               ["部署方式", "GitHub Pages"],
-              ["当前模式", "公开浏览 + DIY 自选 + 价格快照"],
+              ["当前模式", "公开浏览 + 更多品牌 + 官方价每日检查"],
             ].map(([label, value]) => (
               <div key={label} className="flex items-center justify-between gap-4 border-b border-white/10 pb-4 last:border-none last:pb-0">
                 <span className="text-slate-300">{label}</span>
@@ -1115,8 +1435,7 @@ export default function Home() {
             </h2>
           </div>
           <p className="text-base leading-7 text-slate-300">
-            这个版本已经从“预设整机展示”升级成“可自由选件的 DIY 装机站”。新增了更多常见品牌和段位选择，适合先公开上线验证体验。
-            后续如果你要接入更实时的抓价 API，这套数据结构也能继续往下扩展。
+            现在这个版本不只是配件更丰富，还增加了每日价格检查的数据层。官方商城来源会每天自动检查价格，Amazon、Joybuy、AliExpress 这类受限制来源则继续保留最近可核对的快照。
           </p>
         </section>
 
@@ -1132,62 +1451,53 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mb-5 rounded-[20px] border border-[#8be0d2]/25 bg-[#8be0d2]/8 p-4">
-              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <strong className="block text-sm text-[#8be0d2]">DIY 自定义装机</strong>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">
-                    预设只作为快捷入口。你可以自己逐项选择 CPU、主板、显卡、内存、SSD、电源、机箱和散热器，页面会同步刷新每个配件的价格与整机总价。
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
+            <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-wrap gap-3">
+                {presets.map((preset) => (
                   <button
+                    key={preset.id}
                     type="button"
                     onClick={() => {
-                      setSelectedOffers(
-                        Object.fromEntries(
-                          categories.map((category) => [category.id, cheapest(partsById.get(selectedParts[category.id])!).id])
-                        ) as Record<CategoryId, string>
-                      );
+                      setPresetId(preset.id);
+                      setSelectedParts(preset.parts);
+                      setSelectedOffers(offerMapFrom(preset.parts));
                     }}
-                    className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#8be0d2]/40"
+                    className={`rounded-full border px-4 py-2 text-sm transition ${
+                      presetId === preset.id
+                        ? "border-[#ff6b35]/70 bg-[#ff6b35]/15"
+                        : "border-white/10 bg-white/5 hover:border-[#ff6b35]/60 hover:bg-[#ff6b35]/10"
+                    }`}
                   >
-                    全部切到最低价
+                    {preset.name}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPresetId(presets[0].id);
-                      setSelectedParts(presets[0].parts);
-                      setSelectedOffers(offerMapFrom(presets[0].parts));
-                    }}
-                    className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#ff6b35]/50"
-                  >
-                    恢复默认方案
-                  </button>
-                </div>
+                ))}
               </div>
-            </div>
-
-            <div className="mb-5 flex flex-wrap gap-3">
-              {presets.map((preset) => (
+              <div className="flex flex-wrap gap-2">
                 <button
-                  key={preset.id}
                   type="button"
                   onClick={() => {
-                    setPresetId(preset.id);
-                    setSelectedParts(preset.parts);
-                    setSelectedOffers(offerMapFrom(preset.parts));
+                    setSelectedOffers(
+                      Object.fromEntries(
+                        categories.map((category) => [category.id, cheapest(partsById.get(selectedParts[category.id])!).id])
+                      ) as Record<CategoryId, string>
+                    );
                   }}
-                  className={`rounded-full border px-4 py-2 text-sm transition ${
-                    presetId === preset.id
-                      ? "border-[#ff6b35]/70 bg-[#ff6b35]/15"
-                      : "border-white/10 bg-white/5 hover:border-[#ff6b35]/60 hover:bg-[#ff6b35]/10"
-                  }`}
+                  className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#8be0d2]/40"
                 >
-                  {preset.name}
+                  全部切到最低价
                 </button>
-              ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPresetId(presets[0].id);
+                    setSelectedParts(presets[0].parts);
+                    setSelectedOffers(offerMapFrom(presets[0].parts));
+                  }}
+                  className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm hover:border-[#ff6b35]/50"
+                >
+                  恢复默认方案
+                </button>
+              </div>
             </div>
 
             <div className="grid gap-5">
@@ -1296,7 +1606,7 @@ export default function Home() {
                 <span className="block text-sm text-slate-300">预估总价</span>
                 <strong className="mt-2 block text-4xl tracking-[-0.04em]">{gbp(total)}</strong>
                 <small className="block text-sm text-slate-400">
-                  按 1 USD = 0.7465 GBP、1 EUR = 0.8575 GBP 估算，快照日期 {snapshotDate}
+                  按 1 USD = 0.7465 GBP、1 EUR = 0.8575 GBP 估算，每日检查日期 {snapshotDate}
                 </small>
               </div>
             </section>
@@ -1373,6 +1683,38 @@ export default function Home() {
           </aside>
         </section>
 
+        <section className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px] md:p-7">
+          <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+            <div>
+              <p className="mb-2 text-[0.72rem] uppercase tracking-[0.18em] text-[#8be0d2]">Selected Links</p>
+              <h2 className="text-4xl font-semibold tracking-[-0.04em]">当前配置购买链接</h2>
+            </div>
+            <p className="max-w-[50ch] text-sm leading-7 text-slate-300">
+              这里集中放当前已经选中的每个配件链接，方便你在确认整机方案后直接逐项打开对应页面核对价格和下单。
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {selectedLinkGroups.map(({ category, part, offer }) => (
+              <article key={category.id} className="rounded-2xl border border-white/10 bg-white/4 px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#8be0d2]">{category.title}</p>
+                <h3 className="mt-2 text-lg font-semibold">{part.name}</h3>
+                <p className="mt-2 text-sm text-slate-300">
+                  {marketMeta[offer.market].label} · {fmt(offer.price, offer.currency)}
+                </p>
+                <a
+                  href={offer.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm hover:border-[#ff6b35]/60"
+                >
+                  打开当前配件链接
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section id="sources" className="rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px] md:p-7">
           <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
             <div>
@@ -1380,7 +1722,7 @@ export default function Home() {
               <h2 className="text-4xl font-semibold tracking-[-0.04em]">当前价格来源说明</h2>
             </div>
             <p className="max-w-[50ch] text-sm leading-7 text-slate-300">
-              当前价格来自公开网页快照。不同渠道可能存在地区差异、限时活动、库存波动或新旧版本差异，点击来源按钮即可跳转核对。
+              官方商城链接会通过 GitHub Actions 每日自动检查价格；Amazon、Joybuy、AliExpress 等受限制来源保留最近一次成功快照。点击来源按钮即可继续核对。
             </p>
           </div>
 

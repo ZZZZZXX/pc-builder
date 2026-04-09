@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "refresh:prices": "node scripts/update-live-prices.mjs"
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.4",

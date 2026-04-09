@@ -1,0 +1,36 @@
+name: Refresh Prices
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Refresh live price feed
+        run: npm run refresh:prices
+
+      - name: Commit updated prices
+        run: |
+          if git diff --quiet -- src/data/live-prices.json; then
+            echo "No live price changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/live-prices.json
+          git commit -m "refresh live prices"
+          git push
