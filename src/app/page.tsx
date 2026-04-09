@@ -2175,7 +2175,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <aside className="pc-scrollbar grid gap-4 xl:sticky xl:top-5 xl:max-h-[calc(100vh-2.5rem)] xl:overflow-y-auto xl:overscroll-contain xl:pr-1">
+          <aside className="pc-scrollbar grid gap-4 xl:sticky xl:top-5 xl:self-start xl:h-[calc(100vh-2.5rem)] xl:overflow-y-scroll xl:overscroll-contain xl:pr-2 xl:pb-4">
             <section className="flex min-h-0 flex-col rounded-[28px] border border-white/10 bg-[rgba(9,20,36,0.82)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-[18px]">
               <p className="mb-2 text-[0.72rem] uppercase tracking-[0.18em] text-[#8be0d2]">Current Build</p>
               <div className="mb-3 flex flex-wrap items-center gap-2">
