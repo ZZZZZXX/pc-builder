@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rig Atlas
 
-## Getting Started
+一个可公开部署的模拟装机网站，当前版本提供：
 
-First, run the development server:
+- 主流 PC 配件目录
+- 简单兼容性检查
+- Amazon、Joybuy、AliExpress、官方站价格快照
+- GitHub Pages 自动部署
+
+## 本地开发
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 公开发布
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+仓库已经包含 GitHub Pages 工作流。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. 推送到 `main` 分支。
+2. 在 GitHub 仓库的 `Pages` 设置中把来源切到 `GitHub Actions`。
+3. Actions 会自动构建 Next.js 静态导出并发布到公开链接。
 
-## Learn More
+## 数据说明
 
-To learn more about Next.js, take a look at the following resources:
+当前页面价格为 2026-04-09 的公开网页快照，适合先上线验证产品形态。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+后续如果要升级为准实时价格站，建议继续补：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. 服务端价格抓取或商城 API 适配器。
+2. 定时更新任务与缓存层。
+3. 汇率自动更新。
+4. 搜索、筛选、收藏和分享装机单。
