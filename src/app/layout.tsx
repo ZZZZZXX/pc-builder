@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { defaultKeywords, siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
+import { defaultKeywords, googleSiteVerification, siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
+  },
+  verification: {
+    google: googleSiteVerification,
   },
   robots: {
     index: true,
