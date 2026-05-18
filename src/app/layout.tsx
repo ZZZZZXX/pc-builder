@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Manrope, Syne } from "next/font/google";
+import { Inter } from "next/font/google";
 import { defaultKeywords, googleSiteVerification, siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const syne = Syne({
-  variable: "--font-display",
+const inter = Inter({
+  variable: "--font-ui",
   subsets: ["latin"],
 });
 
@@ -61,7 +56,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className={`${manrope.variable} ${syne.variable} antialiased`}>{children}</body>
+      <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }

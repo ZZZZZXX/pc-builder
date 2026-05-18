@@ -2270,57 +2270,57 @@ export default function Home() {
   };
 
   return (
-    <main className="award-shell min-h-screen text-[#111113]">
+    <main className="award-shell min-h-screen text-[#0f172a]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
-      <div className="mx-auto flex w-[min(calc(100%-20px),1460px)] flex-col gap-5 py-5 md:w-[min(calc(100%-36px),1460px)] md:gap-6 md:py-8">
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.68fr)]">
-          <div className="award-pane award-grid relative overflow-hidden rounded-[36px] p-7 md:p-12">
+      <div className="mx-auto flex w-[min(calc(100%-20px),1280px)] flex-col gap-4 py-4 md:w-[min(calc(100%-36px),1280px)] md:gap-5 md:py-6">
+        <section className="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.7fr)]">
+          <div className="award-pane relative overflow-hidden rounded-[28px] p-6 md:p-10">
             <p className="award-kicker mb-2">Rig Atlas</p>
-            <h1 className="font-display max-w-[10ch] text-6xl leading-[0.92] font-semibold tracking-[-0.06em] text-[#111113] md:text-[6.7rem]">
+            <h1 className="max-w-[11ch] text-4xl leading-[1.02] font-semibold tracking-[-0.05em] text-[#101828] md:text-6xl">
               自己 DIY 选配整机，同时看跨站价格
             </h1>
-            <p className="mt-6 max-w-[58ch] text-[1.02rem] leading-8 text-[#4d4b45]">
+            <p className="mt-5 max-w-[60ch] text-[0.98rem] leading-7 text-[#667085]">
               面向公开访问的装机选配站点。现在已经补充了更多主流品牌与常用型号，用户可以自己逐项选择 CPU、主板、显卡、内存、
               SSD、散热器、电源和机箱，并同步看到不同渠道的价格快照。
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3">
               <a
                 href="#builder"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#111113] px-6 text-sm font-semibold text-[#f8f3eb] transition hover:bg-[#25252b]"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#0095f6] px-5 text-sm font-semibold text-white transition hover:bg-[#1877f2]"
               >
                 开始选配
               </a>
               <a
                 href="#sources"
-                className="award-pill inline-flex min-h-12 items-center justify-center rounded-full px-6 text-sm font-medium text-[#111113] transition hover:bg-white/85"
+                className="award-pill inline-flex min-h-11 items-center justify-center rounded-full px-5 text-sm font-medium text-[#101828] transition hover:bg-[#f9fafb]"
               >
                 查看价格来源
               </a>
             </div>
-            <div className="mt-10 grid gap-3 sm:grid-cols-3">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {[
                 ["Editorial rhythm", "更像设计目录而不是后台表单"],
                 ["Brand-first flow", "先看品牌再看具体型号"],
                 ["Snapshot layer", "把价格核对信息放进同一体验里"],
               ].map(([title, text]) => (
-                <div key={title} className="border-t border-black/10 pt-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[#6b6d64]">{title}</p>
-                  <p className="mt-2 text-sm leading-6 text-[#45453f]">{text}</p>
+                <div key={title} className="rounded-2xl border border-black/8 bg-[#f8fafc] px-4 py-4">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#667085]">{title}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#344054]">{text}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="award-pane-dark grid gap-4 rounded-[36px] p-7">
+          <div className="award-pane grid gap-4 rounded-[28px] p-6">
             {[
               ["快照日期", snapshotDate],
               ["已接入市场", "Amazon / Joybuy / AliExpress / Best Buy / 品牌商城"],
               ["部署方式", "GitHub Pages"],
               ["当前模式", "公开浏览 + 更多品牌 + 官方价每日检查"],
             ].map(([label, value]) => (
-              <div key={label} className="flex items-center justify-between gap-4 border-b border-white/8 pb-4 last:border-none last:pb-0">
-                <span className="text-[#bdb7aa]">{label}</span>
+              <div key={label} className="flex items-center justify-between gap-4 border-b border-black/6 pb-4 last:border-none last:pb-0">
+                <span className="text-[#667085]">{label}</span>
                 <strong className="text-right">{value}</strong>
               </div>
             ))}
@@ -2334,33 +2334,33 @@ export default function Home() {
             [String(brandCount), "覆盖品牌"],
             [String(totalOffers), "价格快照条目"],
           ].map(([value, label]) => (
-            <article key={label} className="award-pane rounded-[26px] px-6 py-5">
-              <span className="font-display block text-4xl leading-none font-semibold tracking-[-0.05em]">{value}</span>
-              <span className="mt-2 block text-sm text-[#5d5c54]">{label}</span>
+            <article key={label} className="award-pane rounded-[22px] px-5 py-5">
+              <span className="block text-3xl leading-none font-semibold tracking-[-0.04em]">{value}</span>
+              <span className="mt-2 block text-sm text-[#667085]">{label}</span>
             </article>
           ))}
         </section>
 
-        <section className="award-pane grid gap-4 rounded-[36px] px-8 py-8 md:grid-cols-2">
+        <section className="award-pane grid gap-4 rounded-[28px] px-6 py-6 md:grid-cols-2">
           <div>
             <p className="award-kicker mb-2">Market Coverage</p>
-            <h2 className="font-display text-4xl leading-[1.02] font-semibold tracking-[-0.05em] md:text-5xl">
+            <h2 className="text-3xl leading-[1.08] font-semibold tracking-[-0.04em] md:text-4xl">
               先把装机选择做丰富，再逐步接入更多市场价格
             </h2>
           </div>
-          <p className="max-w-[56ch] text-[1.02rem] leading-8 text-[#4d4b45]">
+          <p className="max-w-[56ch] text-[0.98rem] leading-7 text-[#667085]">
             现在这个版本不只是配件更丰富，还增加了每日价格检查的数据层。官方商城来源会每天自动检查价格，Amazon、Joybuy、AliExpress 这类受限制来源则继续保留最近可核对的快照。
           </p>
         </section>
 
-        <section id="builder" className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.72fr)]">
-          <div className="award-pane rounded-[36px] p-6 md:p-7">
+        <section id="builder" className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.72fr)]">
+          <div className="award-pane rounded-[28px] p-5 md:p-6">
             <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
               <div>
                 <p className="award-kicker mb-2">Builder</p>
-                <h2 className="font-display text-4xl font-semibold tracking-[-0.05em] text-[#111113]">多品牌 DIY 选配目录</h2>
+                <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[#101828]">多品牌 DIY 选配目录</h2>
               </div>
-              <p className="max-w-[48ch] text-sm leading-7 text-[#55534c]">
+              <p className="max-w-[48ch] text-sm leading-7 text-[#667085]">
                 现在每个分类都会先按品牌归类，再展开品牌下的具体型号。先选品牌，再选配件，浏览和比较会更清楚。
               </p>
             </div>
@@ -2379,8 +2379,8 @@ export default function Home() {
                     }}
                     className={`rounded-full border px-4 py-2 text-sm transition ${
                       presetId === preset.id
-                        ? "border-[#ff6b35]/70 bg-[#ff6b35]/15"
-                        : "border-white/10 bg-white/5 hover:border-[#ff6b35]/60 hover:bg-[#ff6b35]/10"
+                        ? "border-[#0095f6]/40 bg-[#0095f6]/8 text-[#101828]"
+                        : "border-black/8 bg-white hover:border-[#0095f6]/35 hover:bg-[#f8fafc]"
                     }`}
                   >
                     {preset.name}
@@ -2396,8 +2396,8 @@ export default function Home() {
                   }}
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     canSwitchToCheapest
-                      ? "border-white/10 bg-white/6 hover:border-[#8be0d2]/40"
-                      : "cursor-not-allowed border-white/8 bg-white/4 text-slate-500"
+                      ? "border-black/8 bg-white hover:border-[#0095f6]/35 hover:bg-[#f8fafc]"
+                      : "cursor-not-allowed border-black/8 bg-[#f8fafc] text-[#98a2b3]"
                   }`}
                 >
                   {canSwitchToCheapest ? "全部切到最低价" : "当前已是最低价"}
@@ -2413,8 +2413,8 @@ export default function Home() {
                   }}
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     canResetToDefault
-                      ? "border-white/10 bg-white/6 hover:border-[#ff6b35]/50"
-                      : "cursor-not-allowed border-white/8 bg-white/4 text-slate-500"
+                      ? "border-black/8 bg-white hover:border-[#0095f6]/35 hover:bg-[#f8fafc]"
+                      : "cursor-not-allowed border-black/8 bg-[#f8fafc] text-[#98a2b3]"
                   }`}
                 >
                   {canResetToDefault ? "恢复默认方案" : "当前已是默认方案"}
@@ -2431,21 +2431,21 @@ export default function Home() {
                 const selectedBrand = selectedPartRecord[category.id].brand;
 
                 return (
-                <section key={category.id} className="rounded-[24px] border border-black/8 bg-[rgba(255,255,255,0.48)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+                <section key={category.id} className="rounded-[22px] border border-black/8 bg-[#fcfcfd] p-4">
                   <div className="mb-3 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                     <div>
                       <h3 className="text-lg font-semibold">{category.title}</h3>
-                      <p className="mt-1 max-w-[58ch] text-sm leading-6 text-[#5c5a53]">{category.description}</p>
+                      <p className="mt-1 max-w-[58ch] text-sm leading-6 text-[#667085]">{category.description}</p>
                     </div>
-                    <span className="award-pill w-fit rounded-full px-3 py-1.5 text-xs text-[#4d5b36]">
+                    <span className="award-pill w-fit rounded-full px-3 py-1.5 text-xs text-[#667085]">
                       {categoryBrands.length} brands / {categoryParts.length} parts
                     </span>
                   </div>
 
                   <div className="mb-4">
                     <div className="mb-2 flex items-center justify-between gap-3">
-                      <p className="text-xs uppercase tracking-[0.14em] text-[#5f6b41]">Select Brand First</p>
-                      <p className="text-xs text-[#6c695f]">Current brand: {selectedBrand}</p>
+                      <p className="text-xs uppercase tracking-[0.14em] text-[#667085]">Select Brand First</p>
+                      <p className="text-xs text-[#98a2b3]">Current brand: {selectedBrand}</p>
                     </div>
                     <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                       {categoryBrands.map((brand) => {
@@ -2460,20 +2460,20 @@ export default function Home() {
                             onClick={() => setActiveBrands((prev) => ({ ...prev, [category.id]: brand }))}
                             className={`rounded-[16px] border px-4 py-3 text-left transition ${
                               isActive
-                                ? "border-[#5f6b41]/30 bg-[#eff6d0] text-[#111113]"
-                                : "border-black/8 bg-white/50 text-[#111113] hover:border-[#5f6b41]/35"
+                                ? "border-[#0095f6]/30 bg-[#f5fbff] text-[#101828]"
+                                : "border-black/8 bg-white text-[#101828] hover:border-[#0095f6]/30 hover:bg-[#f8fafc]"
                             }`}
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div className="min-w-0">
                                 <strong className="block truncate text-sm">{brand}</strong>
-                                <span className="mt-1 block text-xs text-[#6c695f]">
+                                <span className="mt-1 block text-xs text-[#98a2b3]">
                                   {brandParts.length} models{isSelected ? " · selected" : ""}
                                 </span>
                               </div>
                               <span
                                 className={`rounded-full px-2.5 py-1 text-[11px] ${
-                                  isActive ? "bg-[#d7f15a]/45 text-[#273016]" : "bg-black/5 text-[#55534c]"
+                                  isActive ? "bg-[#0095f6]/10 text-[#0095f6]" : "bg-black/5 text-[#667085]"
                                 }`}
                               >
                                 {brandParts.length}
@@ -2486,8 +2486,8 @@ export default function Home() {
                   </div>
 
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <p className="text-xs uppercase tracking-[0.14em] text-[#5f6b41]">{activeBrand} models</p>
-                    <span className="award-pill rounded-full px-3 py-1 text-xs text-[#5c5a53]">
+                    <p className="text-xs uppercase tracking-[0.14em] text-[#667085]">{activeBrand} models</p>
+                    <span className="award-pill rounded-full px-3 py-1 text-xs text-[#667085]">
                       {visibleParts.length} shown
                     </span>
                   </div>
@@ -2499,10 +2499,10 @@ export default function Home() {
                       return (
                         <article
                           key={part.id}
-                          className={`rounded-[16px] border bg-[#0a1728]/90 p-3 transition ${
+                          className={`rounded-[18px] border bg-white p-3 transition ${
                             selectedParts[category.id] === part.id
-                              ? "border-[#ff6b35]/60"
-                              : "border-white/10 hover:border-[#ff6b35]/45"
+                              ? "border-[#0095f6]/45 shadow-[0_0_0_1px_rgba(0,149,246,0.06)]"
+                              : "border-black/8 hover:border-[#0095f6]/35"
                           }`}
                         >
                           <button
@@ -2517,16 +2517,16 @@ export default function Home() {
                             <div className="flex items-start justify-between gap-2.5">
                               <div className="min-w-0">
                                 <h4 className="line-clamp-2 text-[1.05rem] leading-5 font-medium">{part.name}</h4>
-                                <p className="mt-0.5 text-xs uppercase tracking-[0.12em] text-slate-400">{part.brand}</p>
+                                <p className="mt-0.5 text-xs uppercase tracking-[0.12em] text-[#98a2b3]">{part.brand}</p>
                               </div>
-                              <span className="shrink-0 rounded-xl bg-[#8be0d2]/10 px-2.5 py-1.5 text-sm font-bold text-[#8be0d2]">
+                              <span className="shrink-0 rounded-xl bg-[#eff8ff] px-2.5 py-1.5 text-sm font-bold text-[#0095f6]">
                                 {gbp(toGbp(cheapest(part).price, cheapest(part).currency))}
                               </span>
                             </div>
-                            <p className="mt-3 line-clamp-2 min-h-10 text-xs leading-5 text-slate-300">{part.summary}</p>
+                            <p className="mt-3 line-clamp-2 min-h-10 text-xs leading-5 text-[#667085]">{part.summary}</p>
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {part.tags.map((tag) => (
-                                <span key={tag} className="rounded-full bg-white/6 px-2 py-1 text-[11px] text-slate-200">
+                                <span key={tag} className="rounded-full bg-[#f2f4f7] px-2 py-1 text-[11px] text-[#475467]">
                                   {tag}
                                 </span>
                               ))}
@@ -2541,19 +2541,19 @@ export default function Home() {
                                 onClick={() => setSelectedOffers((prev) => ({ ...prev, [category.id]: offer.id }))}
                                 className={`flex w-full items-start justify-between gap-2 rounded-[12px] border px-2.5 py-2 text-left transition ${
                                   currentOffer.id === offer.id
-                                    ? "border-[#8be0d2]/45 bg-[#8be0d2]/8"
-                                    : "border-white/10 bg-white/4 hover:border-[#8be0d2]/35"
+                                    ? "border-[#0095f6]/30 bg-[#f5fbff]"
+                                    : "border-black/8 bg-[#fcfcfd] hover:border-[#0095f6]/30"
                                 }`}
                               >
                                 <span className="grid min-w-0 gap-0.5">
                                   <strong className="line-clamp-1 text-xs">
                                     {marketMeta[offer.market].label} · {offer.title}
                                   </strong>
-                                  <small className="line-clamp-1 text-[11px] text-slate-400">{offer.note}</small>
+                                  <small className="line-clamp-1 text-[11px] text-[#98a2b3]">{offer.note}</small>
                                 </span>
-                                <span className="shrink-0 text-right text-xs text-slate-200">
+                                <span className="shrink-0 text-right text-xs text-[#344054]">
                                   {fmt(offer.price, offer.currency)}
-                                  <small className="block text-[11px] text-slate-400">
+                                  <small className="block text-[11px] text-[#98a2b3]">
                                     ≈ {gbp(toGbp(offer.price, offer.currency))}
                                   </small>
                                 </span>
@@ -2570,42 +2570,42 @@ export default function Home() {
             </div>
           </div>
           <aside className="pc-scrollbar grid gap-4 xl:sticky xl:top-5 xl:self-start xl:h-[calc(100vh-2.5rem)] xl:overflow-y-scroll xl:overscroll-contain xl:pr-2 xl:pb-4">
-            <section className="award-pane-dark flex min-h-0 flex-col rounded-[36px] p-6">
-              <p className="mb-2 text-[0.72rem] uppercase tracking-[0.18em] text-[#8be0d2]">Current Build</p>
+            <section className="award-pane-dark flex min-h-0 flex-col rounded-[28px] p-6">
+              <p className="mb-2 text-[0.72rem] uppercase tracking-[0.16em] text-[#667085]">Current Build</p>
               <div className="mb-3 flex flex-wrap items-center gap-2">
-                <span className={`rounded-full px-3 py-1 text-xs ${isCustomBuild ? "bg-[#8be0d2]/12 text-[#8be0d2]" : "bg-[#ff6b35]/12 text-[#ffb89d]"}`}>
+                <span className={`rounded-full px-3 py-1 text-xs ${isCustomBuild ? "bg-[#eff8ff] text-[#0095f6]" : "bg-[#f2f4f7] text-[#475467]"}`}>
                   {isCustomBuild ? "DIY 自定义中" : `当前基于 ${activePreset.name}`}
                 </span>
               </div>
               <h2 className="text-3xl font-semibold tracking-[-0.04em]">
                 {selectedPartRecord.cpu.name} + {selectedPartRecord.gpu.name}
               </h2>
-              <p className="mt-2 text-sm leading-7 text-slate-300">
+              <p className="mt-2 text-sm leading-7 text-[#667085]">
                 {selectedPartRecord.motherboard.name} / {selectedPartRecord.ram.name} / {selectedPartRecord.case.name}
               </p>
-              <div className="mt-5 rounded-[20px] bg-[linear-gradient(135deg,rgba(255,107,53,0.16),rgba(255,107,53,0.04)),rgba(255,255,255,0.03)] p-5">
-                <span className="block text-sm text-slate-300">预估总价</span>
+              <div className="mt-5 rounded-[20px] border border-black/8 bg-[#f8fafc] p-5">
+                <span className="block text-sm text-[#667085]">预估总价</span>
                 <strong className="mt-2 block text-4xl tracking-[-0.04em]">{gbp(total)}</strong>
-                <small className="block text-sm text-slate-400">
+                <small className="block text-sm text-[#98a2b3]">
                   按 1 USD = 0.7465 GBP、1 EUR = 0.8575 GBP 估算，每日检查日期 {snapshotDate}
                 </small>
               </div>
             </section>
 
-            <section className="award-pane-dark rounded-[36px] p-6">
+            <section className="award-pane-dark rounded-[28px] p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <h3 className="text-lg font-semibold">已选配件</h3>
-                <span className="rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">
+                <span className="rounded-full border border-black/8 px-3 py-1 text-sm text-[#667085]">
                   {categories.length} / {categories.length}
                 </span>
               </div>
               <div className="grid gap-2.5">
                 {categories.map((category) => (
-                  <div key={category.id} className="rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
+                  <div key={category.id} className="rounded-2xl border border-black/8 bg-[#fcfcfd] px-4 py-3">
                     <strong className="block text-sm">
                       {category.title} · {selectedPartRecord[category.id].name}
                     </strong>
-                    <small className="text-xs leading-6 text-slate-400">
+                    <small className="text-xs leading-6 text-[#98a2b3]">
                       {marketMeta[selectedOfferRecord[category.id].market].label} ·{" "}
                       {fmt(selectedOfferRecord[category.id].price, selectedOfferRecord[category.id].currency)} · 约{" "}
                       {gbp(toGbp(selectedOfferRecord[category.id].price, selectedOfferRecord[category.id].currency))}
@@ -2614,7 +2614,7 @@ export default function Home() {
                       href={selectedOfferRecord[category.id].url}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-2 inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-slate-200 hover:border-[#8be0d2]/40"
+                      className="mt-2 inline-flex rounded-full border border-black/8 px-3 py-1 text-xs text-[#344054] hover:border-[#0095f6]/35"
                     >
                       查看当前价格来源
                     </a>
@@ -2623,32 +2623,32 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="award-pane-dark rounded-[36px] p-6">
+            <section className="award-pane-dark rounded-[28px] p-6">
               <h3 className="mb-4 text-lg font-semibold">兼容性检查</h3>
               <div className="grid gap-2.5">
                 {compatibility.map((item) => (
-                  <div key={item.text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
+                  <div key={item.text} className="flex items-start gap-3 rounded-2xl border border-black/8 bg-[#fcfcfd] px-4 py-3">
                     <span
                       className={`mt-1.5 h-2.5 w-2.5 rounded-full ${
                         item.status === "pass" ? "bg-emerald-400" : item.status === "warn" ? "bg-amber-300" : "bg-rose-400"
                       }`}
                     />
-                    <span className="text-sm text-slate-200">{item.text}</span>
+                    <span className="text-sm text-[#344054]">{item.text}</span>
                   </div>
                 ))}
               </div>
             </section>
 
-            <section className="award-pane-dark rounded-[36px] p-6">
+            <section className="award-pane-dark rounded-[28px] p-6">
               <h3 className="mb-4 text-lg font-semibold">渠道分布</h3>
               <div className="grid gap-2.5">
                 {Object.entries(marketSpend).map(([market, value]) => (
-                  <div key={market} className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
+                  <div key={market} className="flex items-center justify-between gap-3 rounded-2xl border border-black/8 bg-[#fcfcfd] px-4 py-3">
                     <div>
                       <strong className="block text-sm">{marketMeta[market as MarketId].label}</strong>
-                      <small className="text-xs text-slate-400">{gbp(value)}</small>
+                      <small className="text-xs text-[#98a2b3]">{gbp(value)}</small>
                     </div>
-                    <div className="h-2 w-32 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-2 w-32 overflow-hidden rounded-full bg-black/6">
                       <div
                         className="h-full rounded-full"
                         style={{
@@ -2664,20 +2664,20 @@ export default function Home() {
           </aside>
         </section>
 
-        <section className="award-pane-dark rounded-[36px] p-6 md:p-7">
+        <section className="award-pane rounded-[28px] p-6 md:p-7">
           <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <p className="award-kicker mb-2 text-[#b8d6a3]">Game Estimate</p>
-              <h2 className="font-display text-4xl font-semibold tracking-[-0.05em]">当前配置游戏流畅度</h2>
+              <p className="award-kicker mb-2">Game Estimate</p>
+              <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[#101828]">当前配置游戏流畅度</h2>
             </div>
-            <p className="max-w-[54ch] text-sm leading-7 text-slate-300">
+            <p className="max-w-[54ch] text-sm leading-7 text-[#667085]">
               这是基于当前 CPU、显卡和内存组合做的站内估算，适合快速判断主流网游、常见 3A 和 Steam 重度 3A 的大致帧率与画质区间。
             </p>
           </div>
 
           <div className="mb-4 flex flex-wrap gap-2">
             {buildHighlights.map((item) => (
-              <span key={item} className="rounded-full border border-[#8be0d2]/20 bg-[#8be0d2]/8 px-3 py-1.5 text-xs text-[#b8fff4]">
+              <span key={item} className="rounded-full border border-[#0095f6]/10 bg-[#eff8ff] px-3 py-1.5 text-xs text-[#0095f6]">
                 {item}
               </span>
             ))}
@@ -2685,22 +2685,22 @@ export default function Home() {
 
           <div className="grid gap-4 xl:grid-cols-3">
             {gameEstimates.map((item) => (
-              <article key={item.title} className="rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5">
-                <p className="text-xs uppercase tracking-[0.16em] text-[#8be0d2]">{item.title}</p>
+              <article key={item.title} className="rounded-[22px] border border-black/8 bg-[#fcfcfd] p-5">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#667085]">{item.title}</p>
                 <h3 className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{item.fps}</h3>
-                <p className="mt-1 text-sm text-slate-400">{item.summary}</p>
+                <p className="mt-1 text-sm text-[#667085]">{item.summary}</p>
                 <div className="mt-4 grid gap-2 text-sm">
-                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/4 px-3 py-2">
-                    <span className="text-slate-400">推荐画质</span>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-black/8 bg-white px-3 py-2">
+                    <span className="text-[#98a2b3]">推荐画质</span>
                     <strong>{item.quality}</strong>
                   </div>
-                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/4 px-3 py-2">
-                    <span className="text-slate-400">建议分辨率</span>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-black/8 bg-white px-3 py-2">
+                    <span className="text-[#98a2b3]">建议分辨率</span>
                     <strong className="text-right">{item.resolution}</strong>
                   </div>
-                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/4 px-3 py-2">
-                    <span className="text-slate-400">流畅度判断</span>
-                    <strong className="text-[#8be0d2]">{item.smoothness}</strong>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-black/8 bg-white px-3 py-2">
+                    <span className="text-[#98a2b3]">流畅度判断</span>
+                    <strong className="text-[#0095f6]">{item.smoothness}</strong>
                   </div>
                 </div>
               </article>
@@ -2708,30 +2708,30 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="award-pane rounded-[36px] p-6 md:p-7">
+        <section className="award-pane rounded-[28px] p-6 md:p-7">
           <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
             <div>
               <p className="award-kicker mb-2">Selected Links</p>
-              <h2 className="font-display text-4xl font-semibold tracking-[-0.05em] text-[#111113]">当前配置购买链接</h2>
+              <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[#101828]">当前配置购买链接</h2>
             </div>
-            <p className="max-w-[50ch] text-sm leading-7 text-[#55534c]">
+            <p className="max-w-[50ch] text-sm leading-7 text-[#667085]">
               这里集中放当前已经选中的每个配件链接，方便你在确认整机方案后直接逐项打开对应页面核对价格和下单。
             </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {selectedLinkGroups.map(({ category, part, offer }) => (
-              <article key={category.id} className="rounded-[22px] border border-black/8 bg-white/50 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
-                <p className="text-xs uppercase tracking-[0.16em] text-[#5f6b41]">{category.title}</p>
+              <article key={category.id} className="rounded-[22px] border border-black/8 bg-[#fcfcfd] px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#667085]">{category.title}</p>
                 <h3 className="mt-2 text-lg font-semibold">{part.name}</h3>
-                <p className="mt-2 text-sm text-[#55534c]">
+                <p className="mt-2 text-sm text-[#667085]">
                   {marketMeta[offer.market].label} · {fmt(offer.price, offer.currency)}
                 </p>
                 <a
                   href={offer.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="award-pill mt-4 inline-flex rounded-full px-3 py-2 text-sm text-[#111113] hover:border-[#ff6b35]/60"
+                  className="award-pill mt-4 inline-flex rounded-full px-3 py-2 text-sm text-[#101828] hover:border-[#0095f6]/35"
                 >
                   打开当前配件链接
                 </a>
@@ -2740,23 +2740,23 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="sources" className="award-pane rounded-[36px] p-6 md:p-7">
+        <section id="sources" className="award-pane rounded-[28px] p-6 md:p-7">
           <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
             <div>
               <p className="award-kicker mb-2">Source Snapshot</p>
-              <h2 className="font-display text-4xl font-semibold tracking-[-0.05em] text-[#111113]">当前价格来源说明</h2>
+              <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[#101828]">当前价格来源说明</h2>
             </div>
-            <p className="max-w-[50ch] text-sm leading-7 text-[#55534c]">
+            <p className="max-w-[50ch] text-sm leading-7 text-[#667085]">
               官方商城链接会通过 GitHub Actions 每日自动检查价格；Amazon、Joybuy、AliExpress 等受限制来源保留最近一次成功快照。点击来源按钮即可继续核对。
             </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {categories.map((category) => (
-              <article key={category.id} className="rounded-[22px] border border-black/8 bg-white/50 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+              <article key={category.id} className="rounded-[22px] border border-black/8 bg-[#fcfcfd] px-4 py-4">
                 <h3 className="text-base font-semibold">{category.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#55534c]">{category.description}</p>
-                <p className="mt-2 text-xs text-[#6f6c63]">价格快照日期：{snapshotDate}</p>
+                <p className="mt-2 text-sm leading-6 text-[#667085]">{category.description}</p>
+                <p className="mt-2 text-xs text-[#98a2b3]">价格快照日期：{snapshotDate}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {byCategory(category.id).flatMap((part) =>
                     part.offers.map((offer) => (
@@ -2765,7 +2765,7 @@ export default function Home() {
                         href={offer.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="award-pill inline-flex rounded-full px-3 py-2 text-xs text-[#111113] hover:border-[#ff6b35]/60"
+                        className="award-pill inline-flex rounded-full px-3 py-2 text-xs text-[#101828] hover:border-[#0095f6]/35"
                       >
                         {marketMeta[offer.market].label} · {part.name}
                       </a>
